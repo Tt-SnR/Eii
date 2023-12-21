@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GPT</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+<style>
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+	<div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+		
+			<div class="signup">
+				<form action="/signup" method="POST">
+					<label for="chk" aria-hidden="true">Sign up</label>
+					
+        			<input type="text" id="email" name="email" placeholder="E-mail" required>
+        			<input type="password" id="password" name="password" placeholder="Password" required>
+        			<input type="text" id="publickey" name="publickey" placeholder="Public Key" required>
+                    <!-- <textarea id="publickey" name="publickey" placeholder="Public Key" required></textarea>  -->
+					<input type="submit" value="Submit">
+					
+				</form>
+			</div>
+					
+		
+			<div class="login">
+			<form action="/signin/account" method="POST" >
+			<!-- <form action="/signin/account" method="POST" onsubmit="showPopup()"> -->
+                <label for="chk" aria-hidden="true">Login</label>
+                <input type="text" id="email" name="email" placeholder="E-mail" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <p class="qr-login" id="qr">Đăng nhập bằng mã QR</p>
+                <input type="submit" value="Submit">
+                
+            </form>
+			</div>
+
+			
+	</div>
+</body>
+<!-- <script>
+    function showPopup() {
+        // Tạo một message popup
+        var popup = document.createElement("div");
+        popup.classList.add("popup");
+        popup.innerHTML = "{{ text }}";
+
+        // Tạo một nút close
+        var closeBtn = document.createElement("span");
+        closeBtn.classList.add("close");
+        closeBtn.innerHTML = "&times;";
+
+        // Thêm nút close vào message popup
+        popup.appendChild(closeBtn);
+
+        // Thêm message popup vào body
+        document.body.appendChild(popup);
+
+        // Đóng message popup khi nhấp vào nút close
+        closeBtn.addEventListener("click", function() {
+            popup.style.display = "none";
+        });
+		
+    }
+</script> -->
+<script>
+    document.getElementById('qr').addEventListener('click', function() {
+    window.location.href = "qr_login"; // Thay thế "login.html" bằng đường dẫn tới trang đăng nhập của bạn
+  });
+</script>
+ 
+</html>

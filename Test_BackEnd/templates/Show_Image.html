@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hiển thị và chọn ảnh từ JSON</title>
+    <style>
+        .thumbnail {
+            width: 200px; /* Đặt kích thước mong muốn cho hình ảnh */
+            height: auto; /* Giữ tỷ lệ khung hình */
+            margin: 10px; /* Khoảng cách giữa các hình ảnh */
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="imageContainer"></div>
+    <script id="jsonData" type="application/json" data-json="{{ json_str |safe }}"></script>
+
+    <form id="imageForm" onsubmit="submitImages(event)">
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // Dữ liệu JSON chứa các URL ảnh
+        // var jsonDataJSON.pa = JSON.parse('{{ json_str |safe}}');
+        //var jsonData = {'image_urls': ['https://oaidalleapiprodscus.blob.core.windows.net/private/org-nzb6rPHoC85FwWwYDFEV20Ni/user-S03qEwb5N3IWVZwrt7rdguSo/img-dUbFTtIdiUnvx1UGVW6VcVHV.png?st=2023-06-14T05%3A53%3A59Z&se=2023-06-14T07%3A53%3A59Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-13T20%3A39%3A13Z&ske=2023-06-14T20%3A39%3A13Z&sks=b&skv=2021-08-06&sig=eHh5VCbE68F3uftC3lSrG8vUfNxID59w8Rm5Cw3kwP4%3D', 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-nzb6rPHoC85FwWwYDFEV20Ni/user-S03qEwb5N3IWVZwrt7rdguSo/img-uCxjLqeBzaFdTBQHezmvXFEn.png?st=2023-06-14T05%3A54%3A07Z&se=2023-06-14T07%3A54%3A07Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-13T20%3A34%3A35Z&ske=2023-06-14T20%3A34%3A35Z&sks=b&skv=2021-08-06&sig=GnlZaSxeYm%2B2Mi5aQwUnnzws7aAlj6eAMyWjDNje7m4%3D', 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-nzb6rPHoC85FwWwYDFEV20Ni/user-S03qEwb5N3IWVZwrt7rdguSo/img-V6FwTkGEYeYG7CDwe3GjjTZN.png?st=2023-06-14T05%3A54%3A19Z&se=2023-06-14T07%3A54%3A19Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-13T20%3A37%3A34Z&ske=2023-06-14T20%3A37%3A34Z&sks=b&skv=2021-08-06&sig=OeJIMijincur/KiMCJOlHrLZd0lIJRYcXqLriakAgjM%3D', 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-nzb6rPHoC85FwWwYDFEV20Ni/user-S03qEwb5N3IWVZwrt7rdguSo/img-6Io0eLpFzG3IfPz5VCJzZKSp.png?st=2023-06-14T05%3A54%3A44Z&se=2023-06-14T07%3A54%3A44Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-13T20%3A37%3A09Z&ske=2023-06-14T20%3A37%3A09Z&sks=b&skv=2021-08-06&sig=DoAQdHx%2BLjhgLGjUONBfn440D%2BS7Hgz6UMXKxM%2Bgokw%3D']};
+        var jsonData='{{json_str|safe}}'
+        var selectedImages = [];
+        var imageContainer = document.getElementById("imageContainer");
+
+        for (var i = 0; i < jsonData.image_urls.length; i++) {
+            var img = document.createElement("img");
+            img.src = jsonData.image_urls[i];
+            img.classList.add("thumbnail"); // Thêm lớp "thumbnail" vào phần tử <img>
+            img.addEventListener("click", function(event) {
+                toggleImageSelection(event.target);
+            });
+            imageContainer.appendChild(img);
+        }
+
+        function toggleImageSelection(img) {
+            var index = selectedImages.indexOf(img.src);
+            if (index === -1) {
+                selectedImages.push(img.src);
+                img.style.border = "2px solid red";
+            } else {
+                selectedImages.splice(index, 1);
+                img.style.border = "none";
+            }
+        }
+
+        function submitImages(event) {
+            event.preventDefault();
+            var newJsonData = {
+                'image_urls': selectedImages
+            };
+            var jsonStr = JSON.stringify(newJsonData);
+            alert(jsonStr);
+        }
+    </script>
+</body>
+</html>

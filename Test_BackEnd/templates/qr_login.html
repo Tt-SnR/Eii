@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/static/qr_style.css">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+	    <div class="login">
+				
+		<!-- <label for="chk" aria-hidden="flase">QR Code Scanner</label> -->
+        <form action='/signin/qr'method="POST"  enctype="multipart/form-data">
+         <input type="file" id="image-upload" name="image-upload" accept="image/*" capture> 
+        <label  for="image-upload">Upload QR Code Image</label>
+         <div id="qr-image"></div>
+         <div id="qr-content"></div>
+         <input type="submit" value="Submit">
+                
+        </form>
+        </div>
+	</div>
+    <!-- <script>
+        document.getElementById('image-upload').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  var reader = new FileReader();
+
+  reader.onload = function(e) {
+    var img = document.createElement('img');
+    img.src = e.target.result;
+    var qrImage = document.getElementById('qr-image');
+    qrImage.innerHTML = ''; // Remove the existing image (if any)
+    var qrContent = document.getElementById('qr-content');
+    qrContent.innerHTML = '';
+
+    img.onload = function() {
+      var qrCode = new Image(); 
+      qrCode.src = img.src;
+      qrCode.onload = function() {
+        // Adjust the image size as desired
+        var maxDimension = 250; // Desired maximum size (px)
+        var aspectRatio = qrCode.width / qrCode.height;
+        var width, height;
+
+        if (qrCode.width > qrCode.height) {
+          width = maxDimension;
+          height = width / aspectRatio;
+        } else {
+          height = maxDimension;
+          width = height * aspectRatio;
+        }
+
+        qrCode.width = width;
+        qrCode.height = height;
+        qrImage.style.display = 'flex';
+        qrImage.style.justifyContent = 'center';
+        qrImage.style.alignItems = 'center';
+        // Display the adjusted size QR image
+        qrImage.appendChild(qrCode);
+
+        // Create a FormData object and append the image file
+        var formData = new FormData();
+        formData.append('image', file);
+
+        // Create an XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Define the function to handle the server's response
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            // Handle the response from the server
+            var response = xhr.responseText;
+            qrContent.textContent = response;
+          }
+        };
+
+        // Open a POST request to the Flask server
+       
+        
+      };
+    };
+
+    // qrImage.appendChild(img); // Remove this line to display only the adjusted size image
+  };
+
+  reader.readAsDataURL(file);
+});
+
+  
+      </script> -->
+  
+      <script>
+        document.getElementById('image-upload').addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+  
+      reader.onload = function(e) {
+          var img = document.createElement('img');
+          img.src = e.target.result;
+          var qrImage = document.getElementById('qr-image');
+          qrImage.innerHTML = ''; // Remove the existing image (if any)
+          var qrContent = document.getElementById('qr-content');
+          qrContent.innerHTML = '';
+  
+          img.onload = function() {
+              var qrCode = new Image(); 
+              qrCode.src = img.src;
+              qrCode.onload = function() {
+                  // Adjust the image size as desired
+                  var maxDimension = 250; // Desired maximum size (px)
+                  var aspectRatio = qrCode.width / qrCode.height;
+                  var width, height;
+  
+                  if (qrCode.width > qrCode.height) {
+                      width = maxDimension;
+                      height = width / aspectRatio;
+                  } else {
+                      height = maxDimension;
+                      width = height * aspectRatio;
+                  }
+  
+                  qrCode.width = width;
+                  qrCode.height = height;
+                  qrImage.style.display = 'flex';
+                qrImage.style.justifyContent = 'center';
+                qrImage.style.alignItems = 'center';
+                  // Display the adjusted size QR image
+                  qrImage.appendChild(qrCode);
+  
+                  // Use a QR code decoding library here
+                  // Example: ZXing
+                  decodeQRCode(qrCode, function(result) {
+                      qrContent.textContent = result;
+                  });
+              };
+          };
+  
+          // qrImage.appendChild(img); // Remove this line to display only the adjusted size image
+      };
+  
+      reader.readAsDataURL(file);
+  });
+  
+      </script>
+    
+</body>
+</html>

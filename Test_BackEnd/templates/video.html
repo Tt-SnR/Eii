@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Player</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        video {
+            width: 640px;
+            height: 480px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function showPopup() {
+            var overlay = document.getElementById('overlay');
+            overlay.style.display = 'flex';
+        }
+
+        function hidePopup() {
+            var overlay = document.getElementById('overlay');
+            overlay.style.display = 'none';
+        }
+
+        
+    </script>
+</head>
+<body>
+    <!-- <h1>Video Player</h1>
+    <video controls>
+        <source src="/static/output.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="button-container">
+        <a href="/static/output.mp4" download><button>Save</button></a>
+    </div> -->
+    <h1>Video Player</h1>
+    <video controls>
+        <source src="/static/output.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="button-container">
+        <button onclick="showPopup()">Save</button>
+    </div>
+
+    <div id="overlay" class="overlay">
+        <div class="popup">
+            <h2>Save Video</h2>
+            <form action="/encrypt" method="POST">
+                <input type="text" id="filename1" name="filename1" placeholder="Enter filename1" required>
+                <input type="text" id="filename2" name="filename2" placeholder="Enter filename2" required>
+                <input type="text" id="key" name="key" placeholder="Enter key" required>
+                <br><br>
+                <button type="submit">Save</button>
+            </form>
+            <button onclick="hidePopup()">Cancel</button>
+        </div>
+    </div>
+</body>
+</html>
+

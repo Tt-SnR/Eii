@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hiển thị và chọn ảnh </title>
+    <style>
+        .thumbnail {
+            width: 200px; /* Đặt kích thước mong muốn cho hình ảnh */
+            height: auto; /* Giữ tỷ lệ khung hình */
+            margin: 10px; /* Khoảng cách giữa các hình ảnh */
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="imageContainer"></div>
+    <script id="jsonData" type="application/json" data-json="{{ json_str |safe }}"></script>
+
+    <!-- <form id="imageForm" onsubmit="submitImages(event)">
+        <input type="submit" value="Submit">
+    </form> -->
+    <form id="imageForm" action="/generate-video" method="POST">
+        <input type="hidden" id="selectedImagesField" name="selectedImages" value="">
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        var jsonData=JSON.parse('{{ json_str | tojson | safe }}');
+        var selectedImages = [];
+        var imageContainer = document.getElementById("imageContainer");
+
+        for (var i = 0; i < jsonData.image_urls.length; i++) {
+            var img = document.createElement("img");
+            img.src = jsonData.image_urls[i];
+            img.classList.add("thumbnail"); // Thêm lớp "thumbnail" vào phần tử <img>
+            img.addEventListener("click", function(event) {
+                toggleImageSelection(event.target);
+            });
+            imageContainer.appendChild(img);
+        }
+
+        function toggleImageSelection(img) {
+            var index = selectedImages.indexOf(img.src);
+            if (index === -1) {
+                selectedImages.push(img.src);
+                img.style.border = "2px solid red";
+            } else {
+                selectedImages.splice(index, 1);
+                img.style.border = "none";
+            }
+
+            var selectedImagesField = document.getElementById("selectedImagesField");
+            selectedImagesField.value = JSON.stringify(selectedImages);
+        }
+
+        // function submitImages(event) {
+        //     event.preventDefault();
+        //     var newJsonData = {
+        //         'image_urls': selectedImages
+        //     };
+        //     var jsonStr = JSON.stringify(newJsonData);
+        //     alert(jsonStr);
+        // }
+    </script>
+</body>
+</html>
